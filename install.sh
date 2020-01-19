@@ -13,25 +13,25 @@ elasticsearch hard memlock unlimited" >> /etc/security/limits.conf
 
 sed -i 's/enforcing/disabled/' /etc/selinux/config
 
-yum -y upgrade
-yum install -y yum-utils java-1.8.0-openjdk-headless nano
+dnf -y upgrade
+dnf install -y java-1.8.0-openjdk-headless nano
 
-yum-config-manager --add-repo https://repo.fortinet.com/repo/centos/7/os/x86_64/fortinet.repo
-yum install -y forticlient
+dnf config-manager --add-repo https://repo.fortinet.com/repo/centos/7/os/x86_64/fortinet.repo
+dnf install -y forticlient
 
 curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.0.rpm 
-yum localinstall -y elasticsearch-6.8.0.rpm
+dnf install -y elasticsearch-6.8.0.rpm
 rm elasticsearch-6.8.0.rpm 
 
 curl -O https://artifacts.elastic.co/downloads/kibana/kibana-6.8.0-x86_64.rpm
-yum localinstall -y kibana-6.8.0-x86_64.rpm
+dnf install -y kibana-6.8.0-x86_64.rpm
 rm kibana-6.8.0-x86_64.rpm
 
 curl -O https://packages.elastic.co/curator/5/centos/7/Packages/elasticsearch-curator-5.7.6-1.x86_64.rpm
-yum localinstall -y elasticsearch-curator-5.7.6-1.x86_64.rpm
+dnf install -y elasticsearch-curator-5.7.6-1.x86_64.rpm
 rm elasticsearch-curator-5.7.6-1.x86_64.rpm
 
-yum clean all
+dnf clean all
 
 firewall-cmd --zone=public --add-port=9200/tcp --permanent
 firewall-cmd --zone=public --add-port=9300/tcp --permanent
@@ -56,7 +56,7 @@ xpack.monitoring.collection.enabled: true
 bootstrap.memory_lock: true" > /etc/elasticsearch/elasticsearch.yml
 
 echo "server.port: 5601
-server.host: "0.0.0.0"
+server.host: "172.31.102.40"
 server.name: "elastic-dh-01"
 elasticsearch.hosts: ["http://172.31.102.40:9200"]" > /etc/kibana/kibana.yml
 
